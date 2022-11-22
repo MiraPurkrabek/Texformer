@@ -190,7 +190,7 @@ class Demo:
                
                 # Compute partial visibility
                 mesh = Mesh(
-                    filename = "smpl_uv.obj",
+                    filename = os.path.join("meta", "smpl", "smpl_uv.obj"),
                 )
                 mesh.v = v
                 mesh.f = f
