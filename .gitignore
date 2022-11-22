@@ -1,0 +1,10 @@
+meta/
+pretrained/
+logs/
+datasets/
+
+__pycache__/
+
+*.png
+*.jpg
+*.obj

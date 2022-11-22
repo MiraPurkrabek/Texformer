@@ -31,7 +31,8 @@ class NrTextureRenderer:
                                            image_size=self.render_res,
                                            light_intensity_ambient=1,
                                            light_intensity_directional=0,
-                                           anti_aliasing=anti_aliasing)
+                                           anti_aliasing=anti_aliasing,
+                                           )
         self.st = 2   # resolution of texture image
 
         # for part segmentation
@@ -100,12 +101,12 @@ class NrTextureRenderer:
         if euler is None:
             R = torch.eye(3, device=self.device)[None, :, :].expand(batch_size, -1, -1)
         else:
-            R = SciR.from_euler('zyx', euler, degrees=True).as_dcm()
+            R = SciR.from_euler('zyx', euler, degrees=True).as_matrix()
             R = torch.from_numpy(R).type(torch.float32).to(self.device)[None, :, :].expand(batch_size, -1, -1)
 
         faces = self.faces[None, :, :].expand(batch_size, -1, -1)
         parts, depth, mask = self.neural_renderer(verts, faces, textures=tex_tensor, K=K, R=R, t=cam_t.unsqueeze(1))
-
+        
         if crop_width is not None:
             parts = self.W_crop(parts, crop_width)
             depth = self.W_crop(depth, crop_width)
